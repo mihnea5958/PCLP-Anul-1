@@ -63,7 +63,7 @@ int *replace_all(const char *s, const char *vechi, const char *nou) {
     }
     size_t len_s = strlen(s);
     size_t len_vechi = strlen(vechi);
-    size_t len_nou = strlne(nou);
+    size_t len_nou = strlen(nou);
     if(len_vechi == 0) {
         char *copie = malloc(len_s + 1);
         if(!copie) return NULL;
@@ -149,7 +149,13 @@ void afiseaza_medii(const char *input) {
     free(copie);
 }
 
-int main(void) {
 
-    return 0;
+int main(void) {
+char s[] = " -0x2A;075;3.5kg";
+char *p, *q, *r;
+long a = strtol(s, &p, 0);
+long b = strtol(p + 1, &q, 0);
+float c = strtof(q + 1, &r);
+printf("%ld|%ld|%.1f|%s\n", a, b, c, r);
+return 0;
 }
