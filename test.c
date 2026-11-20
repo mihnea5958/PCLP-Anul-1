@@ -96,6 +96,59 @@ int *replace_all(const char *s, const char *vechi, const char *nou) {
     return rez;
 }
 
+// Task 3:
+void afiseaza_medii(const char *input) {
+    if(!input) return;
+    size_t len = strlen(input);
+    char *copie = malloc(len + 1);
+    if(!copie) return;
+    memcpy(copie, input, len + 1);
+    size_t capacitate = 8, nr_persoane = 0;
+    char **intrari_pers = malloc(capacitate * sizeof(char *));
+    if(!intrari_pers) {
+        free(copie);
+        return;
+    }
+    char *tok_pers = strtok(copie, ";");
+    while(tok_pers != NULL) {
+        if(nr_persoane == capacitate) {
+            capacitate *= 2;
+            char **temp = realloc(intrari_pers, capacitate * sizeof(char *));
+            if(!temp) {
+                free(intrari_pers);
+                free(copie);
+                return;
+            }
+            intrari_pers = temp;
+        }
+        intrari_pers[nr_persoane++] = tok_pers;
+        tok_pers = strtok(NULL, ";");
+    }
+    
+    for(size_t i = 0; i < nr_persoane; i++) {
+        char *sep = strchr(intrari_pers[i], ':');
+        if(!sep) continue;
+        *sep = '\0';
+        const char *nume = intrari_pers;
+        char *lista_note = sep + 1;
+        double suma = 0.0;
+        int nr_note = 0;
+        char *tok_nota = strtok(lista_note, ",");
+        while(tok_nota != NULL) {
+            int nota = atoi(tok_nota);
+            suma += nota;
+            nr_note++;
+            tok_nota = strtok(NULL, ","); 
+        }
+        if(nr_note > 0) {
+            double media = suma / nr_note;
+            printf("%s: %.2f\n", nume, media);
+        }
+    }
+    free(intrari_pers);
+    free(copie);
+}
+
 int main(void) {
 
     return 0;
